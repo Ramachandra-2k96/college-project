@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Decoder</title>
+</head>
+<body>
+    <h1>QR Code Decoder</h1>
+    <img id="video_feed" src="{% url 'video_feed' %}" width="640" height="480">
+    <button onclick="stopStream()">Stop</button>
+
+    <script>
+        var eventSource = new EventSource("{% url 'video_feed' %}");
+
+        eventSource.onmessage = function (event) {
+            document.getElementById('video_feed').src = 'data:image/jpeg;base64,' + event.data;
+        };
+
+        function stopStream() {
+            eventSource.close();
+        }
+    </script>
+</body>
+</html>
